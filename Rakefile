@@ -97,6 +97,14 @@ def linux?
   RUBY_PLATFORM.downcase.include?("linux")
 end
 
+def debian?
+  (%x( cat /etc/*-release | grep -e "^NAME="  ) =~ /Mint|Ubuntu/)
+end
+
+def arch?
+  (%x( cat /etc/*-release | grep -e "^NAME="  ) =~ /Arch/)
+end
+
 def linux_message
   puts ''
   puts "- Change your terminal window to Run command as login shell and RESTART"
@@ -118,5 +126,6 @@ end
 
 def install_prereqs
   run_command %{ $HOME/.cc_dotfiles/mac.sh } if macos?
-  run_command %{ $HOME/.cc_dotfiles/ubuntu.sh } if linux?
+  run_command %{ $HOME/.cc_dotfiles/ubuntu.sh } if debian?
+  run_command %{ $HOME/.cc_dotfiles/arch.sh } if arch?
 end

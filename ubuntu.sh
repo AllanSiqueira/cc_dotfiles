@@ -18,7 +18,7 @@ install_tmux() {
 }
 
 install_gnome_terminal_colors() {
-  GIT_REPO="https://github.com/Anthony25/gnome-terminal-colors-solarized.git"
+  GIT_REPO="https://github.com/aruhier/gnome-terminal-colors-solarized.git"
   COLORS_PATH="$HOME/.gnome-terminal-colors-solarized"
 
   [ -d $COLORS_PATH ] && return

@@ -12,31 +12,55 @@ then
 
   case "$(uname -s)" in
     Linux)
-      echo "  - vim (vim-gnome)"
       NODE_VERSION=12
+      case "$(cat /etc/*-release | grep -e "^NAME=")" in
+        *Mint*|*Ubuntu*)
+          echo "  - rvm (rvm.io)"
+          sudo apt-get update
+          sudo apt-get install -y software-properties-common gnupg2
+          gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+          curl -sSL https://get.rvm.io | bash -s stable --ruby
+          source ${HOME}/.rvm/scripts/rvm
 
-      sudo apt-get update
-      sudo apt-get install -y software-properties-common gnupg2
-      gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-      curl -sSL https://get.rvm.io | bash -s stable --ruby
-      curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | sudo -E bash -
-      curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-      echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+          echo "  - node & yarn"
+          curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | sudo -E bash -
+          curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+          echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 
-      sudo apt-get install -y silversearcher-ag \
-        git \
-        xclip \
-        build-essential \
-        zsh \
-        dconf-cli \
-        vim-gtk3 \
-        nodejs \
-        yarn \
-        ruby \
-        libevent-dev \
-        ncurses-dev \
-        bison \
-        pkg-config
+          sudo apt-get install -y silversearcher-ag \
+            git \
+            xclip \
+            build-essential \
+            zsh \
+            dconf-cli \
+            vim-gtk3 \
+            nodejs \
+            yarn \
+            ruby \
+            libevent-dev \
+            ncurses-dev \
+            bison \
+            pkg-config
+          ;;
+        *Arch*)
+          echo "  - rvm (rvm.io)"
+          gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+          curl -sSL https://get.rvm.io | bash -s stable --ruby
+          source ${HOME}/.rvm/scripts/rvm
+
+          echo "  - node & yarn"
+          sudo pacman -S nodejs-lts-erbium \
+            yarn \
+            git \
+            zsh \
+            vim \
+            xclip \
+            the_silver_searcher \
+            libevent \
+            ncurses \
+            bison \
+            dconf --noconfirm
+      esac
       ;;
     Darwin )
       echo "  - vim (macvim)"
